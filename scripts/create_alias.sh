@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# This script creates an alias for the Gemini CLI
+# This script creates an alias for the CodeCraft CLI
 
 # Determine the project directory
 PROJECT_DIR=$(cd "$(dirname "$0")/.." && pwd)
-ALIAS_COMMAND="alias gemini='$PROJECT_DIR/scripts/start.sh'"
+ALIAS_COMMAND="alias codecraft='$PROJECT_DIR/scripts/start.sh'"
 
 # Detect shell and set config file path
 if [[ "$SHELL" == *"/bash" ]]; then
@@ -21,8 +21,8 @@ echo "  $ALIAS_COMMAND"
 echo ""
 
 # Check if the alias already exists
-if grep -q "alias gemini=" "$CONFIG_FILE"; then
-    echo "A 'gemini' alias already exists in $CONFIG_FILE. No changes were made."
+if grep -q "alias codecraft=" "$CONFIG_FILE"; then
+    echo "A 'codecraft' alias already exists in $CONFIG_FILE. No changes were made."
     exit 0
 fi
 

@@ -14,7 +14,7 @@ import {
   ToolRegistry,
   AccessibilitySettings,
   SandboxConfig,
-} from '@google/gemini-cli-core';
+} from 'codecraft-cli-core';
 import { LoadedSettings, SettingsFile, Settings } from '../config/settings.js';
 import process from 'node:process';
 
@@ -68,10 +68,10 @@ interface MockServerConfig {
   getAllGeminiMdFilenames: Mock<() => string[]>;
 }
 
-// Mock @google/gemini-cli-core and its Config class
-vi.mock('@google/gemini-cli-core', async (importOriginal) => {
+// Mock codecraft-cli-core and its Config class
+vi.mock('codecraft-cli-core', async (importOriginal) => {
   const actualCore =
-    await importOriginal<typeof import('@google/gemini-cli-core')>();
+    await importOriginal<typeof import('codecraft-cli-core')>();
   const ConfigClassMock = vi
     .fn()
     .mockImplementation((optionsPassedToConstructor) => {

@@ -41,7 +41,7 @@ It's important to always review confirmation prompts carefully before allowing a
 
 ## Learn more about Gemini CLI's tools
 
-Gemini CLI's built-in tools can be broadly categorized as follows:
+CodeCraft CLI's built-in tools can be broadly categorized as follows:
 
 - **[File System Tools](./file-system.md):** For interacting with files and directories (reading, writing, listing, searching, etc.).
 - **[Shell Tool](./shell.md) (`run_shell_command`):** For executing shell commands.

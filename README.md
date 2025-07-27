@@ -1,55 +1,210 @@
-# Gemini CLI
+# CodeCraft CLI
 
-[![Gemini CLI CI](https://github.com/google-gemini/gemini-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/google-gemini/gemini-cli/actions/workflows/ci.yml)
+[![CodeCraft CLI CI](https://github.com/im-rahulr/gemini-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/im-rahulr/gemini-cli/actions/workflows/ci.yml)
 
-![Gemini CLI Screenshot](./docs/assets/gemini-screenshot.png)
+![CodeCraft CLI Screenshot](./docs/assets/gemini-screenshot.png)
 
-This repository contains the Gemini CLI, a command-line AI workflow tool that connects to your
-tools, understands your code and accelerates your workflows.
+**CodeCraft CLI** is a powerful command-line AI workflow tool that connects to your development tools, understands your code, and accelerates your workflows. Built on Google's Gemini AI technology, CodeCraft provides an intelligent coding assistant right in your terminal.
 
-With the Gemini CLI you can:
+## ✨ Features
 
-- Query and edit large codebases in and beyond Gemini's 1M token context window.
-- Generate new apps from PDFs or sketches, using Gemini's multimodal capabilities.
-- Automate operational tasks, like querying pull requests or handling complex rebases.
-- Use tools and MCP servers to connect new capabilities, including [media generation with Imagen,
-  Veo or Lyria](https://github.com/GoogleCloudPlatform/vertex-ai-creative-studio/tree/main/experiments/mcp-genmedia)
-- Ground your queries with the [Google Search](https://ai.google.dev/gemini-api/docs/grounding)
-  tool, built in to Gemini.
+With CodeCraft CLI you can:
 
-## Quickstart
+- 🔍 **Query and edit large codebases** in and beyond Gemini's 1M token context window
+- 🎨 **Generate new applications** from PDFs, sketches, or descriptions using Gemini's multimodal capabilities
+- ⚡ **Automate operational tasks** like querying pull requests, handling complex rebases, and code reviews
+- 🔧 **Extend functionality** with tools and MCP servers, including [media generation capabilities](https://github.com/GoogleCloudPlatform/vertex-ai-creative-studio/tree/main/experiments/mcp-genmedia)
+- 🌐 **Ground your queries** with the [Google Search](https://ai.google.dev/gemini-api/docs/grounding) tool built into Gemini
+- 💡 **Interactive coding assistance** with real-time suggestions and code generation
 
-1. **Prerequisites:** Ensure you have [Node.js version 18](https://nodejs.org/en/download) or higher installed.
-2. **Run the CLI:** Execute the following command in your terminal:
+## 🚀 Installation
 
-   ```bash
-   npx https://github.com/google-gemini/gemini-cli
-   ```
+### Prerequisites
 
-   Or install it with:
+- [Node.js version 18](https://nodejs.org/en/download) or higher
+- A Google account for authentication
 
-   ```bash
-   npm install -g @google/gemini-cli
-   gemini
-   ```
+### Quick Install
 
-3. **Pick a color theme**
-4. **Authenticate:** When prompted, sign in with your personal Google account. This will grant you up to 60 model requests per minute and 1,000 model requests per day using Gemini.
+Install CodeCraft CLI globally using npm:
 
-You are now ready to use the Gemini CLI!
+```bash
+npm install -g codecraft-cli
+```
 
-### For advanced use or increased limits:
+### Verify Installation
 
-If you need to use a specific model or require a higher request capacity, you can use an API key:
+Check that CodeCraft CLI is installed correctly:
 
-1. Generate a key from [Google AI Studio](https://aistudio.google.com/apikey).
-2. Set it as an environment variable in your terminal. Replace `YOUR_API_KEY` with your generated key.
+```bash
+codecraft --version
+```
 
-   ```bash
-   export GEMINI_API_KEY="YOUR_API_KEY"
-   ```
+## 🛠️ Setup & Configuration
 
-For other authentication methods, including Google Workspace accounts, see the [authentication](./docs/cli/authentication.md) guide.
+### 1. First Run
+
+Launch CodeCraft CLI:
+
+```bash
+codecraft
+```
+
+### 2. Authentication Setup
+
+When you first run CodeCraft, you'll be prompted to authenticate:
+
+1. **Choose authentication method:** Sign in with your personal Google account
+2. **Browser authentication:** CodeCraft will open your browser for Google OAuth
+3. **Grant permissions:** Allow CodeCraft to access Gemini API on your behalf
+
+This grants you:
+- ✅ Up to **60 model requests per minute**
+- ✅ **1,000 model requests per day** using Gemini
+- ✅ Access to all Gemini models and capabilities
+
+### 3. Theme Selection
+
+Choose your preferred color theme for the best terminal experience.
+
+### 4. Advanced Authentication (Optional)
+
+For advanced use cases or higher limits, you can use an API key:
+
+1. Generate a key from [Google AI Studio](https://aistudio.google.com/apikey)
+2. Set it as an environment variable:
+
+```bash
+export GEMINI_API_KEY="YOUR_API_KEY"
+```
+
+For other authentication methods, including Google Workspace accounts, see our [authentication guide](https://codecraft-team.netlify.app/docs/cli/authentication).
+
+## 📖 Usage Examples
+
+### Basic Usage
+
+Start CodeCraft in any directory:
+
+```bash
+cd your-project/
+codecraft
+```
+
+### Example Commands
+
+**Generate a new application:**
+```bash
+codecraft
+> Create a React todo app with TypeScript and Tailwind CSS
+```
+
+**Analyze existing code:**
+```bash
+codecraft
+> Explain the architecture of this codebase and suggest improvements
+```
+
+**Code review assistance:**
+```bash
+codecraft
+> Review the changes in my latest commit and suggest optimizations
+```
+
+**Debug assistance:**
+```bash
+codecraft
+> Help me debug this error: [paste error message]
+```
+
+### Working with Files
+
+Reference specific files in your prompts:
+
+```bash
+codecraft
+> @src/components/Header.tsx - Refactor this component to use hooks
+```
+
+### Project Analysis
+
+Clone and analyze any repository:
+
+```bash
+git clone https://github.com/your-username/your-project
+cd your-project
+codecraft
+> Give me a summary of this project's structure and main features
+```
+
+## 🎯 Available Commands
+
+CodeCraft CLI includes several built-in commands to enhance your workflow:
+
+- `/help` - Show available commands and shortcuts
+- `/docs` - Open full CodeCraft CLI documentation in your browser
+- `/quit` - Exit the CLI
+- `/memory` - Manage conversation memory
+- `/stats` - Check session statistics
+- `/editor` - Set external editor preferences
+- `/compress` - Compress context by replacing it with a summary
+
+## 🔧 Troubleshooting
+
+### Common Installation Issues
+
+**Issue: `npm install -g codecraft-cli` fails with permission errors**
+```bash
+# Solution: Use npx or fix npm permissions
+npx codecraft-cli
+
+# Or fix npm permissions (macOS/Linux):
+sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
+```
+
+**Issue: `codecraft: command not found`**
+```bash
+# Solution: Check if npm global bin is in PATH
+npm config get prefix
+# Add the bin directory to your PATH in ~/.bashrc or ~/.zshrc
+export PATH="$(npm config get prefix)/bin:$PATH"
+```
+
+**Issue: Authentication fails**
+```bash
+# Solution: Clear authentication cache and retry
+rm -rf ~/.gemini/
+codecraft
+```
+
+**Issue: Node.js version compatibility**
+```bash
+# Check Node.js version (requires 18+)
+node --version
+
+# Update Node.js if needed
+# Visit: https://nodejs.org/en/download
+```
+
+### Getting Help
+
+- 📚 **Documentation:** [https://codecraft-team.netlify.app/docs](https://codecraft-team.netlify.app/docs)
+- 🐛 **Report Issues:** [GitHub Issues](https://github.com/im-rahulr/gemini-cli/issues)
+- 💬 **Community Support:** Check our documentation for community resources
+
+## 👨‍💻 Developed By
+
+**CodeCraft CLI** is developed and maintained by **Rahul**.
+
+🌐 **Developer Portfolio:** [https://im-rahul.netlify.app/#](https://im-rahul.netlify.app/#)
+
+### About the Developer
+
+Rahul is a passionate software developer focused on creating innovative AI-powered development tools. CodeCraft CLI represents his vision of making AI assistance accessible and powerful for developers worldwide.
+
+---
+
+*Built with ❤️ by [Rahul](https://im-rahul.netlify.app/#) | Powered by Google Gemini AI*
 
 ## Examples
 
@@ -59,78 +214,82 @@ You can start a project from a new directory:
 
 ```sh
 cd new-project/
-gemini
+codecraft
 > Write me a Gemini Discord bot that answers questions using a FAQ.md file I will provide
 ```
 
 Or work with an existing project:
 
 ```sh
-git clone https://github.com/google-gemini/gemini-cli
+git clone https://github.com/im-rahulr/gemini-cli
 cd gemini-cli
-gemini
+codecraft
 > Give me a summary of all of the changes that went in yesterday
 ```
 
-### Next steps
+### Next Steps
 
-- Learn how to [contribute to or build from the source](./CONTRIBUTING.md).
-- Explore the available **[CLI Commands](./docs/cli/commands.md)**.
-- If you encounter any issues, review the **[Troubleshooting guide](./docs/troubleshooting.md)**.
-- For more comprehensive documentation, see the [full documentation](./docs/index.md).
-- Take a look at some [popular tasks](#popular-tasks) for more inspiration.
+- 📚 **[Complete Documentation](https://codecraft-team.netlify.app/docs)** - Full guide to CodeCraft CLI
+- 🛠️ **[Available Commands](https://codecraft-team.netlify.app/docs/cli/commands)** - All CLI commands and shortcuts
+- 🔧 **[Troubleshooting Guide](https://codecraft-team.netlify.app/docs/troubleshooting)** - Common issues and solutions
+- 🏗️ **[Architecture Overview](https://codecraft-team.netlify.app/docs/architecture)** - How CodeCraft CLI works
+- 🤝 **[Contributing Guide](./CONTRIBUTING.md)** - Help improve CodeCraft CLI
 
-### Troubleshooting
+## 🎯 Popular Use Cases
 
-Head over to the [troubleshooting](docs/troubleshooting.md) guide if you're
-having issues.
+### 🔍 Explore a New Codebase
 
-## Popular tasks
+Start by navigating to any repository and running CodeCraft:
 
-### Explore a new codebase
-
-Start by `cd`ing into an existing or newly-cloned repository and running `gemini`.
-
-```text
-> Describe the main pieces of this system's architecture.
+```bash
+cd your-project/
+codecraft
+> Describe the main pieces of this system's architecture and how they interact
 ```
 
-```text
-> What security mechanisms are in place?
+```bash
+codecraft
+> What security mechanisms are in place in this application?
 ```
 
-### Work with your existing code
+### 💻 Work with Your Existing Code
 
-```text
-> Implement a first draft for GitHub issue #123.
+```bash
+codecraft
+> Implement a first draft for GitHub issue #123 with proper error handling
 ```
 
-```text
-> Help me migrate this codebase to the latest version of Java. Start with a plan.
+```bash
+codecraft
+> Help me migrate this codebase to the latest version of Java. Start with a migration plan
 ```
 
-### Automate your workflows
+### ⚡ Automate Your Workflows
 
-Use MCP servers to integrate your local system tools with your enterprise collaboration suite.
+Use MCP servers to integrate your local system tools with your enterprise collaboration suite:
 
-```text
-> Make me a slide deck showing the git history from the last 7 days, grouped by feature and team member.
+```bash
+codecraft
+> Create a slide deck showing the git history from the last 7 days, grouped by feature and team member
 ```
 
-```text
-> Make a full-screen web app for a wall display to show our most interacted-with GitHub issues.
+```bash
+codecraft
+> Build a full-screen web app for a wall display to show our most interacted-with GitHub issues
 ```
 
-### Interact with your system
+### 🔧 System Integration
 
-```text
-> Convert all the images in this directory to png, and rename them to use dates from the exif data.
+```bash
+codecraft
+> Convert all images in this directory to PNG and rename them using dates from EXIF data
 ```
 
-```text
-> Organise my PDF invoices by month of expenditure.
+```bash
+codecraft
+> Organize my PDF invoices by month of expenditure and create a summary report
 ```
 
-## Terms of Service and Privacy Notice
+## 📄 Terms of Service and Privacy Notice
 
-For details on the terms of service and privacy notice applicable to your use of Gemini CLI, see the [Terms of Service and Privacy Notice](./docs/tos-privacy.md).
+For details on the terms of service and privacy notice applicable to your use of CodeCraft CLI, see the [Terms of Service and Privacy Notice](https://codecraft-team.netlify.app/docs/tos-privacy).

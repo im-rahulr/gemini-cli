@@ -14,7 +14,7 @@ import {
   ToolExecuteConfirmationDetails,
   ToolMcpConfirmationDetails,
   Config,
-} from '@google/gemini-cli-core';
+} from 'codecraft-cli-core';
 import {
   RadioButtonSelect,
   RadioSelectItem,

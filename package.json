@@ -1,5 +1,5 @@
 {
-  "name": "@google/gemini-cli",
+  "name": "codecraft-cli",
   "version": "0.1.5",
   "engines": {
     "node": ">=18.0.0"
@@ -8,7 +8,7 @@
   "workspaces": [
     "packages/*"
   ],
-  "repository": "google-gemini/gemini-cli",
+  "repository": "im-rahulr/gemini-cli",
   "config": {
     "sandboxImageUri": "us-docker.pkg.dev/gemini-code-dev/gemini-cli/sandbox:0.1.4"
   },
@@ -51,7 +51,7 @@
     "start:gcp": "concurrently --raw --kill-others \"npm run telemetry -- --target=gcp\" \"npm start\""
   },
   "bin": {
-    "gemini": "bundle/gemini.js"
+    "codecraft": "bundle/codecraft.js"
   },
   "files": [
     "bundle/",
@@ -83,6 +83,6 @@
     "yargs": "^17.7.2"
   },
   "dependencies": {
-    "@google/gemini-cli": "^0.1.1"
+    "codecraft-cli": "^0.1.1"
   }
 }

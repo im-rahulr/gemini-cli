@@ -19,7 +19,7 @@ help:
 	@echo "  make debug            - Start the Gemini CLI in debug mode"
 	@echo "  make release          - Publish a new release"
 	@echo "  make run-npx          - Run the CLI using npx (for testing the published package)"
-	@echo "  make create-alias     - Create a 'gemini' alias for your shell"
+	@echo "  make create-alias     - Create a 'codecraft' alias for your shell"
 
 install:
 	npm install
@@ -58,7 +58,7 @@ release:
 	npm run publish:release
 
 run-npx:
-	npx https://github.com/google-gemini/gemini-cli
+	npx https://github.com/im-rahulr/gemini-cli
 
 create-alias:
 	scripts/create_alias.sh
