@@ -33,6 +33,14 @@ import { GIT_COMMIT_INFO } from '../../generated/git-commit.js';
 import { formatDuration, formatMemoryUsage } from '../utils/formatters.js';
 import { getCliVersion } from '../../utils/version.js';
 import { LoadedSettings } from '../../config/settings.js';
+import { AgentSelector } from '../../config/agentSelector.js';
+import {
+  createAgentFromTemplate,
+  saveAgent,
+  deleteAgent
+} from '../../config/agentStorage.js';
+import { AGENT_TEMPLATES, AgentTemplateKey } from '../../config/agents.js';
+import { Agent } from '../../config/agents.js';
 
 export interface SlashCommandActionReturn {
   shouldScheduleTool?: boolean;
@@ -187,6 +195,14 @@ export const useSlashCommandProcessor = (
     } catch (_err) {
       return [];
     }
+  }, [config]);
+
+  // Initialize agent selector
+  const agentSelector = useMemo(() => {
+    if (!config?.getProjectRoot()) {
+      return null;
+    }
+    return new AgentSelector(config.getProjectRoot());
   }, [config]);
 
   const slashCommands: SlashCommand[] = useMemo(() => {
@@ -482,13 +498,13 @@ export const useSlashCommandProcessor = (
         name: 'memory',
         description:
           'manage memory. Usage: /memory <show|refresh|add> [text for add]',
-        action: (mainCommand, subCommand, args) => {
+        action: async (mainCommand, subCommand, args) => {
           switch (subCommand) {
             case 'show':
-              showMemoryAction();
+              await showMemoryAction();
               return; // Explicitly return void
             case 'refresh':
-              performMemoryRefresh();
+              await performMemoryRefresh();
               return; // Explicitly return void
             case 'add':
               return addMemoryAction(mainCommand, subCommand, args); // Return the object
@@ -984,6 +1000,226 @@ export const useSlashCommandProcessor = (
         },
       });
     }
+
+    // Add agent command
+    commands.push({
+      name: 'agent',
+      description: 'manage AI agents with specialized prompts and behaviors',
+      action: async (mainCommand, subCommand, args) => {
+        if (!agentSelector) {
+          addMessage({
+            type: MessageType.ERROR,
+            content: 'Agent system not available (no project root found)',
+            timestamp: new Date(),
+          });
+          return;
+        }
+
+        switch (subCommand) {
+          case 'list': {
+            const agents = agentSelector.getAvailableAgents();
+            const activeAgent = agentSelector.getActiveAgent();
+            const errors = agentSelector.getErrors();
+
+            let message = '**Available Agents:**\n\n';
+
+            if (agents.length === 0) {
+              message += 'No agents found. Use `/agent create` to create your first agent.\n\n';
+            } else {
+              agents.forEach(agent => {
+                const isActive = activeAgent?.id === agent.id;
+                const status = isActive ? ' (ACTIVE)' : '';
+                message += `• **${agent.name}**${status}\n`;
+                message += `  - Expertise: ${agent.expertiseArea}\n`;
+                message += `  - Description: ${agent.description}\n`;
+                message += `  - ID: ${agent.id}\n\n`;
+              });
+            }
+
+            if (errors.length > 0) {
+              message += '**Errors:**\n';
+              errors.forEach(error => {
+                message += `• ${error}\n`;
+              });
+            }
+
+            addMessage({
+              type: MessageType.INFO,
+              content: message,
+              timestamp: new Date(),
+            });
+            return;
+          }
+
+          case 'create': {
+            if (!args || args.trim() === '') {
+              const templates = Object.keys(AGENT_TEMPLATES).join(', ');
+              addMessage({
+                type: MessageType.ERROR,
+                content: `Usage: /agent create <template> [name]\nAvailable templates: ${templates}`,
+                timestamp: new Date(),
+              });
+              return;
+            }
+
+            const parts = args.trim().split(/\s+/);
+            const templateKey = parts[0].toUpperCase() as AgentTemplateKey;
+            const customName = parts.slice(1).join(' ');
+
+            if (!(templateKey in AGENT_TEMPLATES)) {
+              const templates = Object.keys(AGENT_TEMPLATES).join(', ');
+              addMessage({
+                type: MessageType.ERROR,
+                content: `Unknown template: ${templateKey}\nAvailable templates: ${templates}`,
+                timestamp: new Date(),
+              });
+              return;
+            }
+
+            try {
+              const agent = createAgentFromTemplate(templateKey, customName);
+              await saveAgent(agent, false, config!.getProjectRoot());
+              agentSelector.refresh();
+
+              addMessage({
+                type: MessageType.INFO,
+                content: `Created agent "${agent.name}" (ID: ${agent.id})`,
+                timestamp: new Date(),
+              });
+            } catch (error) {
+              addMessage({
+                type: MessageType.ERROR,
+                content: `Failed to create agent: ${error instanceof Error ? error.message : String(error)}`,
+                timestamp: new Date(),
+              });
+            }
+            return;
+          }
+
+          case 'use': {
+            if (!args || args.trim() === '') {
+              addMessage({
+                type: MessageType.ERROR,
+                content: 'Usage: /agent use <agent-name-or-id>',
+                timestamp: new Date(),
+              });
+              return;
+            }
+
+            const agentName = args.trim();
+            const agent = agentSelector.findAgentByName(agentName);
+
+            if (!agent) {
+              addMessage({
+                type: MessageType.ERROR,
+                content: `Agent not found: ${agentName}. Use /agent list to see available agents.`,
+                timestamp: new Date(),
+              });
+              return;
+            }
+
+            agentSelector.setActiveAgent(agent.id);
+            addMessage({
+              type: MessageType.INFO,
+              content: `Activated agent: ${agent.name}\nExpertise: ${agent.expertiseArea}\nWorking Style: ${agent.workingStyle}`,
+              timestamp: new Date(),
+            });
+            return;
+          }
+
+          case 'current': {
+            const activeAgent = agentSelector.getActiveAgent();
+            if (activeAgent) {
+              addMessage({
+                type: MessageType.INFO,
+                content: `**Current Agent:** ${activeAgent.name}\n**Expertise:** ${activeAgent.expertiseArea}\n**Description:** ${activeAgent.description}\n**Working Style:** ${activeAgent.workingStyle}`,
+                timestamp: new Date(),
+              });
+            } else {
+              addMessage({
+                type: MessageType.INFO,
+                content: 'No agent currently active. Use `/agent use <name>` to activate an agent.',
+                timestamp: new Date(),
+              });
+            }
+            return;
+          }
+
+          case 'disable': {
+            agentSelector.setActiveAgent(null);
+            addMessage({
+              type: MessageType.INFO,
+              content: 'Agent deactivated. Using default AI behavior.',
+              timestamp: new Date(),
+            });
+            return;
+          }
+
+          case 'delete': {
+            if (!args || args.trim() === '') {
+              addMessage({
+                type: MessageType.ERROR,
+                content: 'Usage: /agent delete <agent-name-or-id>',
+                timestamp: new Date(),
+              });
+              return;
+            }
+
+            const agentName = args.trim();
+            const agent = agentSelector.findAgentByName(agentName);
+
+            if (!agent) {
+              addMessage({
+                type: MessageType.ERROR,
+                content: `Agent not found: ${agentName}. Use /agent list to see available agents.`,
+                timestamp: new Date(),
+              });
+              return;
+            }
+
+            try {
+              const deleted = await deleteAgent(agent.id, config!.getProjectRoot());
+              if (deleted) {
+                // Deactivate if this was the active agent
+                if (agentSelector.getActiveAgent()?.id === agent.id) {
+                  agentSelector.setActiveAgent(null);
+                }
+                agentSelector.refresh();
+
+                addMessage({
+                  type: MessageType.INFO,
+                  content: `Deleted agent: ${agent.name}`,
+                  timestamp: new Date(),
+                });
+              } else {
+                addMessage({
+                  type: MessageType.ERROR,
+                  content: `Agent not found: ${agentName}`,
+                  timestamp: new Date(),
+                });
+              }
+            } catch (error) {
+              addMessage({
+                type: MessageType.ERROR,
+                content: `Failed to delete agent: ${error instanceof Error ? error.message : String(error)}`,
+                timestamp: new Date(),
+              });
+            }
+            return;
+          }
+
+          default: {
+            addMessage({
+              type: MessageType.ERROR,
+              content: `Unknown /agent command: ${subCommand || '(none)'}\nAvailable commands: list, create, use, current, disable, delete`,
+              timestamp: new Date(),
+            });
+            return;
+          }
+        }
+      },
+    });
+
     return commands;
   }, [
     onDebugMessage,
@@ -1009,6 +1245,7 @@ export const useSlashCommandProcessor = (
     setQuittingMessages,
     pendingCompressionItemRef,
     setPendingCompressionItem,
+    agentSelector,
   ]);
 
   const handleSlashCommand = useCallback(

@@ -93,6 +93,7 @@ describe('useSlashCommandProcessor', () => {
   let mockLoadHistory: ReturnType<typeof vi.fn>;
   let mockRefreshStatic: ReturnType<typeof vi.fn>;
   let mockSetShowHelp: ReturnType<typeof vi.fn>;
+  let mockSetShowUpdate: ReturnType<typeof vi.fn>;
   let mockOnDebugMessage: ReturnType<typeof vi.fn>;
   let mockOpenThemeDialog: ReturnType<typeof vi.fn>;
   let mockOpenAuthDialog: ReturnType<typeof vi.fn>;
@@ -111,6 +112,7 @@ describe('useSlashCommandProcessor', () => {
     mockLoadHistory = vi.fn();
     mockRefreshStatic = vi.fn();
     mockSetShowHelp = vi.fn();
+    mockSetShowUpdate = vi.fn();
     mockOnDebugMessage = vi.fn();
     mockOpenThemeDialog = vi.fn();
     mockOpenAuthDialog = vi.fn();
@@ -169,6 +171,7 @@ describe('useSlashCommandProcessor', () => {
         mockLoadHistory,
         mockRefreshStatic,
         mockSetShowHelp,
+        mockSetShowUpdate,
         mockOnDebugMessage,
         mockOpenThemeDialog,
         mockOpenAuthDialog,
@@ -503,7 +506,7 @@ describe('useSlashCommandProcessor', () => {
         vi.setSystemTime(mockDate);
 
         await act(async () => {
-          handleSlashCommand(command);
+          await handleSlashCommand(command);
         });
 
         expect(mockAddItem).not.toHaveBeenCalled();
@@ -751,7 +754,7 @@ describe('useSlashCommandProcessor', () => {
         2,
         expect.objectContaining({
           type: MessageType.INFO,
-          text: `No MCP servers configured. Please open the following URL in your browser to view documentation:\nhttps://goo.gle/gemini-cli-docs-mcp`,
+          text: `No MCP servers configured. Please open the following URL in your browser to view documentation:\nhttps://rahul-5.gitbook.io/rahul-docs/product-guides/codecraft-cli`,
         }),
         expect.any(Number),
       );
@@ -778,11 +781,11 @@ describe('useSlashCommandProcessor', () => {
         2,
         expect.objectContaining({
           type: MessageType.INFO,
-          text: 'No MCP servers configured. Opening documentation in your browser: https://goo.gle/gemini-cli-docs-mcp',
+          text: 'No MCP servers configured. Opening documentation in your browser: https://rahul-5.gitbook.io/rahul-docs/product-guides/codecraft-cli',
         }),
         expect.any(Number),
       );
-      expect(open).toHaveBeenCalledWith('https://goo.gle/gemini-cli-docs-mcp');
+      expect(open).toHaveBeenCalledWith('https://rahul-5.gitbook.io/rahul-docs/product-guides/codecraft-cli');
       expect(commandResult).toBe(true);
     });
 
@@ -1194,6 +1197,81 @@ describe('useSlashCommandProcessor', () => {
         }),
         expect.any(Number),
       );
+    });
+  });
+
+  describe('/agent command', () => {
+    it('should show error when no project root is available', async () => {
+      // Mock config to return null for project root
+      const originalGetProjectRoot = mockConfig.getProjectRoot;
+      mockConfig.getProjectRoot = vi.fn().mockReturnValue(null);
+
+      const settings = {
+        merged: {
+          contextFileName: 'GEMINI.md',
+        },
+      } as LoadedSettings;
+
+      const { result } = renderHook(() =>
+        useSlashCommandProcessor(
+          mockConfig,
+          settings,
+          [],
+          mockAddItem,
+          mockClearItems,
+          mockLoadHistory,
+          mockRefreshStatic,
+          mockSetShowHelp,
+          mockSetShowUpdate,
+          mockOnDebugMessage,
+          mockOpenThemeDialog,
+          mockOpenAuthDialog,
+          mockOpenEditorDialog,
+          mockPerformMemoryRefresh,
+          mockCorgiMode,
+          false,
+          mockSetQuittingMessages,
+        ),
+      );
+
+      const { handleSlashCommand } = result.current;
+      let commandResult: SlashCommandActionReturn | boolean = false;
+
+      await act(async () => {
+        commandResult = await handleSlashCommand('/agent');
+      });
+
+      expect(mockAddItem).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          type: MessageType.ERROR,
+          text: 'Agent system not available (no project root found)',
+        }),
+        expect.any(Number),
+      );
+      expect(commandResult).toBe(true);
+
+      // Restore original mock
+      mockConfig.getProjectRoot = originalGetProjectRoot;
+    });
+
+    it('should show error for unknown agent subcommand', async () => {
+      const { handleSlashCommand } = getProcessor();
+      let commandResult: SlashCommandActionReturn | boolean = false;
+
+      await act(async () => {
+        commandResult = await handleSlashCommand('/agent unknown');
+      });
+
+      expect(mockAddItem).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          type: MessageType.ERROR,
+          text: 'Unknown /agent command: unknown\nAvailable commands: list, create, use, current, disable, delete',
+        }),
+        expect.any(Number),
+      );
+      expect(commandResult).toBe(true);
     });
   });
 });
