@@ -1,6 +1,6 @@
-# Gemini CLI Configuration
+# CodeCraft CLI Configuration
 
-Gemini CLI offers several ways to configure its behavior, including environment variables, command-line arguments, and settings files. This document outlines the different configuration methods and available settings.
+CodeCraft CLI offers several ways to configure its behavior, including environment variables, command-line arguments, and settings files. This document outlines the different configuration methods and available settings.
 
 ## Configuration layers
 
@@ -14,20 +14,20 @@ Configuration is applied in the following order of precedence (lower numbers are
 
 ## The user settings file and project settings file
 
-Gemini CLI uses `settings.json` files for persistent configuration. There are two locations for these files:
+CodeCraft CLI uses `settings.json` files for persistent configuration. There are two locations for these files:
 
 - **User settings file:**
   - **Location:** `~/.gemini/settings.json` (where `~` is your home directory).
-  - **Scope:** Applies to all Gemini CLI sessions for the current user.
+  - **Scope:** Applies to all CodeCraft CLI sessions for the current user.
 - **Project settings file:**
   - **Location:** `.gemini/settings.json` within your project's root directory.
-  - **Scope:** Applies only when running Gemini CLI from that specific project. Project settings override user settings.
+  - **Scope:** Applies only when running CodeCraft CLI from that specific project. Project settings override user settings.
 
 **Note on environment variables in settings:** String values within your `settings.json` files can reference environment variables using either `$VAR_NAME` or `${VAR_NAME}` syntax. These variables will be automatically resolved when the settings are loaded. For example, if you have an environment variable `MY_API_TOKEN`, you could use it in `settings.json` like this: `"apiKey": "$MY_API_TOKEN"`.
 
 ### The `.gemini` directory in your project
 
-In addition to a project settings file, a project's `.gemini` directory can contain other project-specific files related to Gemini CLI's operation, such as:
+In addition to a project settings file, a project's `.gemini` directory can contain other project-specific files related to CodeCraft CLI's operation, such as:
 
 - [Custom sandbox profiles](#sandboxing) (e.g., `.gemini/sandbox-macos-custom.sb`, `.gemini/sandbox.Dockerfile`).
 
@@ -93,7 +93,7 @@ In addition to a project settings file, a project's `.gemini` directory can cont
 
 - **`sandbox`** (boolean or string):
 
-  - **Description:** Controls whether and how to use sandboxing for tool execution. If set to `true`, Gemini CLI uses a pre-built `gemini-cli-sandbox` Docker image. For more information, see [Sandboxing](#sandboxing).
+  - **Description:** Controls whether and how to use sandboxing for tool execution. If set to `true`, CodeCraft CLI uses a pre-built `codecraft-cli-sandbox` Docker image. For more information, see [Sandboxing](#sandboxing).
   - **Default:** `false`
   - **Example:** `"sandbox": "docker"`
 
@@ -365,7 +365,7 @@ This example demonstrates how you can provide general project context, specific 
   3.  **Sub-directory Context Files (Contextual/Local):**
       - Location: The CLI also scans for the configured context file in subdirectories _below_ the current working directory (respecting common ignore patterns like `node_modules`, `.git`, etc.).
       - Scope: Allows for highly specific instructions relevant to a particular component, module, or sub-section of your project.
-- **Concatenation & UI Indication:** The contents of all found context files are concatenated (with separators indicating their origin and path) and provided as part of the system prompt to the Gemini model. The CLI footer displays the count of loaded context files, giving you a quick visual cue about the active instructional context.
+- **Concatenation & UI Indication:** The contents of all found context files are concatenated (with separators indicating their origin and path) and provided as part of the system prompt to the CodeCraft model. The CLI footer displays the count of loaded context files, giving you a quick visual cue about the active instructional context.
 - **Commands for Memory Management:**
   - Use `/memory refresh` to force a re-scan and reload of all context files from all configured locations. This updates the AI's instructional context.
   - Use `/memory show` to display the combined instructional context currently loaded, allowing you to verify the hierarchy and content being used by the AI.

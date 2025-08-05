@@ -1,7 +1,7 @@
 {
   "name": "codecraft-cli",
   "version": "0.1.5",
-  "description": "Gemini CLI",
+  "description": "CodeCraft CLI",
   "type": "module",
   "main": "dist/index.js",
   "bin": {

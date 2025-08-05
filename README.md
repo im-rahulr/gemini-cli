@@ -10,11 +10,11 @@
 
 With CodeCraft CLI you can:
 
-- 🔍 **Query and edit large codebases** in and beyond Gemini's 1M token context window
-- 🎨 **Generate new applications** from PDFs, sketches, or descriptions using Gemini's multimodal capabilities
+- 🔍 **Query and edit large codebases** in and beyond CodeCraft's 1M token context window
+- 🎨 **Generate new applications** from PDFs, sketches, or descriptions using CodeCraft's multimodal capabilities
 - ⚡ **Automate operational tasks** like querying pull requests, handling complex rebases, and code reviews
 - 🔧 **Extend functionality** with tools and MCP servers, including [media generation capabilities](https://github.com/GoogleCloudPlatform/vertex-ai-creative-studio/tree/main/experiments/mcp-genmedia)
-- 🌐 **Ground your queries** with the [Google Search](https://ai.google.dev/gemini-api/docs/grounding) tool built into Gemini
+- 🌐 **Ground your queries** with the [Google Search](https://ai.google.dev/gemini-api/docs/grounding) tool built into CodeCraft
 - 💡 **Interactive coding assistance** with real-time suggestions and code generation
 
 ## 🚀 Installation
@@ -56,7 +56,7 @@ When you first run CodeCraft, you'll be prompted to authenticate:
 
 1. **Choose authentication method:** Sign in with your personal Google account
 2. **Browser authentication:** CodeCraft will open your browser for Google OAuth
-3. **Grant permissions:** Allow CodeCraft to access Gemini API on your behalf
+3. **Grant permissions:** Allow CodeCraft to access CodeCraft API on your behalf
 
 This grants you:
 - ✅ Up to **60 model requests per minute**
@@ -149,6 +149,25 @@ CodeCraft CLI includes several built-in commands to enhance your workflow:
 - `/editor` - Set external editor preferences
 - `/compress` - Compress context by replacing it with a summary
 
+## 📊 Analytics & Privacy
+
+CodeCraft CLI includes an optional analytics system to help improve the product. **All analytics collection is user-controlled and can be disabled.**
+
+### Privacy Controls
+
+```bash
+# Disable analytics entirely
+ANALYTICS_ENABLED=false
+
+# Disable collection of prompt content
+ANALYTICS_COLLECT_PROMPTS=false
+
+# Disable collection of user email
+ANALYTICS_COLLECT_EMAIL=false
+```
+
+For detailed information about data collection, privacy controls, and compliance, see [Analytics Documentation](docs/analytics.md).
+
 ## 🔧 Troubleshooting
 
 ### Common Installation Issues
@@ -208,14 +227,14 @@ Rahul is a passionate software developer focused on creating innovative AI-power
 
 ## Examples
 
-Once the CLI is running, you can start interacting with Gemini from your shell.
+Once the CLI is running, you can start interacting with CodeCraft from your shell.
 
 You can start a project from a new directory:
 
 ```sh
 cd new-project/
 codecraft
-> Write me a Gemini Discord bot that answers questions using a FAQ.md file I will provide
+> Write me a CodeCraft Discord bot that answers questions using a FAQ.md file I will provide
 ```
 
 Or work with an existing project:

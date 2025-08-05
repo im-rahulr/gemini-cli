@@ -1,6 +1,6 @@
 # CLI Commands
 
-Gemini CLI supports several built-in commands to help you manage your session, customize the interface, and control its behavior. These commands are prefixed with a forward slash (`/`), an at symbol (`@`), or an exclamation mark (`!`).
+CodeCraft CLI supports several built-in commands to help you manage your session, customize the interface, and control its behavior. These commands are prefixed with a forward slash (`/`), an at symbol (`@`), or an exclamation mark (`!`).
 
 ## Slash commands (`/`)
 
@@ -8,7 +8,7 @@ Slash commands provide meta-level control over the CLI itself.
 
 - **`/bug`**
 
-  - **Description:** File an issue about Gemini CLI. By default, the issue is filed within the GitHub repository for Gemini CLI. The string you enter after `/bug` will become the headline for the bug being filed. The default `/bug` behavior can be modified using the `bugCommand` setting in your `.gemini/settings.json` files.
+  - **Description:** File an issue about CodeCraft CLI. By default, the issue is filed within the GitHub repository for CodeCraft CLI. The string you enter after `/bug` will become the headline for the bug being filed. The default `/bug` behavior can be modified using the `bugCommand` setting in your `.gemini/settings.json` files.
 
 - **`/chat`**
 
@@ -38,7 +38,7 @@ Slash commands provide meta-level control over the CLI itself.
 
 - **`/help`** (or **`/?`**)
 
-  - **Description:** Display help information about the Gemini CLI, including available commands and their usage.
+  - **Description:** Display help information about the CodeCraft CLI, including available commands and their usage.
 
 - **`/mcp`**
 
@@ -59,7 +59,7 @@ Slash commands provide meta-level control over the CLI itself.
     - **`add`**:
       - **Description:** Adds the following text to the AI's memory. Usage: `/memory add <text to remember>`
     - **`show`**:
-      - **Description:** Display the full, concatenated content of the current hierarchical memory that has been loaded from all `GEMINI.md` files. This lets you inspect the instructional context being provided to the Gemini model.
+      - **Description:** Display the full, concatenated content of the current hierarchical memory that has been loaded from all `GEMINI.md` files. This lets you inspect the instructional context being provided to the CodeCraft model.
     - **`refresh`**:
       - **Description:** Reload the hierarchical instructional memory from all `GEMINI.md` files found in the configured locations (global, project/ancestors, and sub-directories). This command updates the model with the latest `GEMINI.md` content.
     - **Note:** For more details on how `GEMINI.md` files contribute to hierarchical memory, see the [CLI Configuration documentation](./configuration.md#4-geminimd-files-hierarchical-instructional-context).
@@ -72,11 +72,11 @@ Slash commands provide meta-level control over the CLI itself.
 
 - **`/stats`**
 
-  - **Description:** Display detailed statistics for the current Gemini CLI session, including token usage, cached token savings (when available), and session duration. Note: Cached token information is only displayed when cached tokens are being used, which occurs with API key authentication but not with OAuth authentication at this time.
+  - **Description:** Display detailed statistics for the current CodeCraft CLI session, including token usage, cached token savings (when available), and session duration. Note: Cached token information is only displayed when cached tokens are being used, which occurs with API key authentication but not with OAuth authentication at this time.
 
 - [**`/theme`**](./themes.md)
 
-  - **Description:** Open a dialog that lets you change the visual theme of Gemini CLI.
+  - **Description:** Open a dialog that lets you change the visual theme of CodeCraft CLI.
 
 - **`/auth`**
 
@@ -88,7 +88,7 @@ Slash commands provide meta-level control over the CLI itself.
 
 - [**`/tools`**](../tools/index.md)
 
-  - **Description:** Display a list of tools that are currently available within Gemini CLI.
+  - **Description:** Display a list of tools that are currently available within CodeCraft CLI.
   - **Sub-commands:**
     - **`desc`** or **`descriptions`**:
       - **Description:** Show detailed descriptions of each tool, including each tool's name with its full description as provided to the model.
@@ -97,11 +97,11 @@ Slash commands provide meta-level control over the CLI itself.
 
 - **`/quit`** (or **`/exit`**)
 
-  - **Description:** Exit Gemini CLI.
+  - **Description:** Exit CodeCraft CLI.
 
 ## At commands (`@`)
 
-At commands are used to include the content of files or directories as part of your prompt to Gemini. These commands include git-aware filtering.
+At commands are used to include the content of files or directories as part of your prompt to CodeCraft. These commands include git-aware filtering.
 
 - **`@<path_to_file_or_directory>`**
 
@@ -135,8 +135,8 @@ The `!` prefix lets you interact with your system's shell directly from within G
 
   - **Description:** Execute the given `<shell_command>` in your system's default shell. Any output or errors from the command are displayed in the terminal.
   - **Examples:**
-    - `!ls -la` (executes `ls -la` and returns to Gemini CLI)
-    - `!git status` (executes `git status` and returns to Gemini CLI)
+    - `!ls -la` (executes `ls -la` and returns to CodeCraft CLI)
+    - `!git status` (executes `git status` and returns to CodeCraft CLI)
 
 - **`!` (Toggle shell mode)**
 
@@ -145,6 +145,6 @@ The `!` prefix lets you interact with your system's shell directly from within G
       - When active, shell mode uses a different coloring and a "Shell Mode Indicator".
       - While in shell mode, text you type is interpreted directly as a shell command.
     - **Exiting shell mode:**
-      - When exited, the UI reverts to its standard appearance and normal Gemini CLI behavior resumes.
+      - When exited, the UI reverts to its standard appearance and normal CodeCraft CLI behavior resumes.
 
 - **Caution for all `!` usage:** Commands you execute in shell mode have the same permissions and impact as if you ran them directly in your terminal.

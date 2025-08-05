@@ -3,7 +3,7 @@
 .PHONY: help install build build-sandbox build-all test lint format preflight clean start debug release run-npx create-alias
 
 help:
-	@echo "Makefile for gemini-cli"
+	@echo "Makefile for CodeCraft CLI"
 	@echo ""
 	@echo "Usage:"
 	@echo "  make install          - Install npm dependencies"
@@ -15,8 +15,8 @@ help:
 	@echo "  make format           - Format the code"
 	@echo "  make preflight        - Run formatting, linting, and tests"
 	@echo "  make clean            - Remove generated files"
-	@echo "  make start            - Start the Gemini CLI"
-	@echo "  make debug            - Start the Gemini CLI in debug mode"
+	@echo "  make start            - Start the CodeCraft CLI"
+	@echo "  make debug            - Start the CodeCraft CLI in debug mode"
 	@echo "  make release          - Publish a new release"
 	@echo "  make run-npx          - Run the CLI using npx (for testing the published package)"
 	@echo "  make create-alias     - Create a 'codecraft' alias for your shell"

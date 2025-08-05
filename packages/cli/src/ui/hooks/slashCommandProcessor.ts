@@ -193,7 +193,7 @@ export const useSlashCommandProcessor = (
       {
         name: 'help',
         altName: '?',
-        description: 'for help on gemini-cli',
+        description: 'for help on CodeCraft CLI',
         action: (_mainCommand, _subCommand, _args) => {
           onDebugMessage('Opening help.');
           setShowHelp(true);
@@ -201,9 +201,9 @@ export const useSlashCommandProcessor = (
       },
       {
         name: 'docs',
-        description: 'open full Gemini CLI documentation in your browser',
+        description: 'open full CodeCraft CLI documentation in your browser',
         action: async (_mainCommand, _subCommand, _args) => {
-          const docsUrl = 'https://goo.gle/gemini-cli-docs';
+          const docsUrl = 'https://rahul-5.gitbook.io/rahul-docs/product-guides/codecraft-cli';
           if (process.env.SANDBOX && process.env.SANDBOX !== 'sandbox-exec') {
             addMessage({
               type: MessageType.INFO,
@@ -308,7 +308,7 @@ export const useSlashCommandProcessor = (
           const serverNames = Object.keys(mcpServers);
 
           if (serverNames.length === 0) {
-            const docsUrl = 'https://goo.gle/gemini-cli-docs-mcp';
+            const docsUrl = 'https://rahul-5.gitbook.io/rahul-docs/product-guides/codecraft-cli';
             if (process.env.SANDBOX && process.env.SANDBOX !== 'sandbox-exec') {
               addMessage({
                 type: MessageType.INFO,
@@ -495,7 +495,7 @@ export const useSlashCommandProcessor = (
       },
       {
         name: 'tools',
-        description: 'list available Gemini CLI tools',
+        description: 'list available CodeCraft CLI tools',
         action: async (_mainCommand, _subCommand, _args) => {
           // Check if the _subCommand includes a specific flag to control description visibility
           let useShowDescriptions = showToolDescriptions;

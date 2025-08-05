@@ -35,6 +35,12 @@ export interface AccessibilitySettings {
   disableLoadingPhrases?: boolean;
 }
 
+export interface AnalyticsSettings {
+  enabled?: boolean;
+  collectPrompts?: boolean;
+  collectUserEmail?: boolean;
+}
+
 export interface Settings {
   theme?: string;
   selectedAuthType?: AuthType;
@@ -50,6 +56,7 @@ export interface Settings {
   accessibility?: AccessibilitySettings;
   telemetry?: TelemetrySettings;
   usageStatisticsEnabled?: boolean;
+  analytics?: AnalyticsSettings;
   preferredEditor?: string;
   bugCommand?: BugCommandSettings;
   checkpointing?: CheckpointingSettings;

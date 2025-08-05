@@ -2,7 +2,7 @@
 .env
 .env~
 
-# gemini-cli settings
+# CodeCraft CLI settings
 .gemini/
 !gemini/config.yaml
 

@@ -55,7 +55,7 @@ export interface WebSearchToolResult extends ToolResult {
 }
 
 /**
- * A tool to perform web searches using Google Search via the Gemini API.
+ * A tool to perform web searches using Google Search via the CodeCraft API.
  */
 export class WebSearchTool extends BaseTool<
   WebSearchToolParams,
@@ -67,7 +67,7 @@ export class WebSearchTool extends BaseTool<
     super(
       WebSearchTool.Name,
       'GoogleSearch',
-      'Performs a web search using Google Search (via the Gemini API) and returns the results. This tool is useful for finding information on the internet based on a query.',
+      'Performs a web search using Google Search (via the CodeCraft API) and returns the results. This tool is useful for finding information on the internet based on a query.',
       {
         type: 'object',
         properties: {

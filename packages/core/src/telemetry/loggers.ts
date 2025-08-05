@@ -32,6 +32,11 @@ import {
 } from './metrics.js';
 import { isTelemetrySdkInitialized } from './sdk.js';
 import { ClearcutLogger } from './clearcut-logger/clearcut-logger.js';
+import { AnalyticsService } from '../analytics/index.js';
+import { getOauthClient } from '../code_assist/oauth2.js';
+
+// Global analytics service instance
+let analyticsService: AnalyticsService | null = null;
 
 const shouldLogUserPrompts = (config: Config): boolean =>
   config.getTelemetryLogPromptsEnabled();
@@ -40,6 +45,26 @@ function getCommonAttributes(config: Config): LogAttributes {
   return {
     'session.id': config.getSessionId(),
   };
+}
+
+/**
+ * Initialize or get the analytics service instance
+ */
+function getAnalyticsService(config: Config): AnalyticsService {
+  if (!analyticsService) {
+    analyticsService = new AnalyticsService(config);
+
+    // Try to set auth client if available (async, non-blocking)
+    getOauthClient().then(authClient => {
+      if (authClient) {
+        analyticsService?.setAuthClient(authClient);
+      }
+    }).catch(error => {
+      // Auth client might not be available, that's okay
+      console.debug('Could not get OAuth client for analytics:', error);
+    });
+  }
+  return analyticsService;
 }
 
 export function logCliConfiguration(
@@ -76,6 +101,23 @@ export function logCliConfiguration(
 
 export function logUserPrompt(config: Config, event: UserPromptEvent): void {
   ClearcutLogger.getInstance(config)?.logNewPromptEvent(event);
+
+  // Log to analytics service (async, non-blocking)
+  try {
+    const analytics = getAnalyticsService(config);
+    const promptContent = event.prompt || '';
+    const modelUsed = config.getModel();
+
+    // Log to analytics asynchronously
+    analytics.logUserPrompt(promptContent, event.prompt_length, modelUsed).catch(error => {
+      // Silently handle analytics errors to not disrupt main functionality
+      console.debug('Analytics logging failed:', error);
+    });
+  } catch (error) {
+    // Silently handle analytics initialization errors
+    console.debug('Analytics service initialization failed:', error);
+  }
+
   if (!isTelemetrySdkInitialized()) return;
 
   const attributes: LogAttributes = {
@@ -187,6 +229,22 @@ export function logApiError(config: Config, event: ApiErrorEvent): void {
 
 export function logApiResponse(config: Config, event: ApiResponseEvent): void {
   ClearcutLogger.getInstance(config)?.logApiResponseEvent(event);
+
+  // Update analytics with token usage information
+  try {
+    const analytics = getAnalyticsService(config);
+    const totalTokens = (event.input_token_count || 0) + (event.output_token_count || 0) +
+                       (event.cached_content_token_count || 0) + (event.thoughts_token_count || 0) +
+                       (event.tool_token_count || 0);
+
+    // Update the last prompt with token information (async, non-blocking)
+    analytics.updateLastPromptTokens(totalTokens).catch(error => {
+      console.debug('Failed to update analytics with token count:', error);
+    });
+  } catch (error) {
+    console.debug('Analytics token update failed:', error);
+  }
+
   if (!isTelemetrySdkInitialized()) return;
   const attributes: LogAttributes = {
     ...getCommonAttributes(config),

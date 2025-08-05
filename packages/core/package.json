@@ -29,6 +29,7 @@
     "@opentelemetry/exporter-trace-otlp-grpc": "^0.52.0",
     "@opentelemetry/instrumentation-http": "^0.52.0",
     "@opentelemetry/sdk-node": "^0.52.0",
+    "@supabase/supabase-js": "^2.53.0",
     "@types/glob": "^8.1.0",
     "@types/html-to-text": "^9.0.4",
     "diff": "^7.0.0",
