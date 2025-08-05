@@ -2,8 +2,6 @@
 
 [![CodeCraft CLI CI](https://github.com/im-rahulr/gemini-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/im-rahulr/gemini-cli/actions/workflows/ci.yml)
 
-![CodeCraft CLI Screenshot](./docs/assets/gemini-screenshot.png)
-
 **CodeCraft CLI** is a powerful command-line AI workflow tool that connects to your development tools, understands your code, and accelerates your workflows. Built on Google's Gemini AI technology, CodeCraft provides an intelligent coding assistant right in your terminal.
 
 ## ✨ Features
