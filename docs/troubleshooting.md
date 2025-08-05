@@ -23,7 +23,7 @@ This guide provides solutions to common issues and debugging tips.
 
 - **Q: Where are CodeCraft CLI configuration files stored?**
 
-  - A: The CLI configuration is stored within two `settings.json` files: one in your home directory and one in your project's root directory. In both locations, `settings.json` is found in the `.gemini/` folder. Refer to [CLI Configuration](https://codecraft-team.netlify.app/docs/cli/configuration) for more details.
+  - A: The CLI configuration is stored within two `settings.json` files: one in your home directory and one in your project's root directory. In both locations, `settings.json` is found in the `.codecraft/` folder. Refer to [CLI Configuration](https://codecraft-team.netlify.app/docs/cli/configuration) for more details.
 
 - **Q: Why don't I see cached token counts in my stats output?**
 

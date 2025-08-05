@@ -3,8 +3,8 @@
 .env~
 
 # CodeCraft CLI settings
-.gemini/
-!gemini/config.yaml
+.codecraft/
+!codecraft/config.yaml
 
 # Dependency directory
 node_modules

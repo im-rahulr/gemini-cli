@@ -244,7 +244,7 @@ const App = ({ config, settings, startupWarnings = [] }: AppProps) => {
         {
           type: MessageType.INFO,
           text: `⚡ Slow response times detected. Automatically switching from ${currentModel} to ${fallbackModel} for faster responses for the remainder of this session.
-⚡ To avoid this you can utilize a Gemini API Key. See: https://goo.gle/gemini-cli-docs-auth#gemini-api-key
+⚡ To avoid this you can utilize a CodeCraft API Key. See: https://codecraft-team.netlify.app/docs/cli/configuration#authentication
 ⚡ You can switch authentication methods by typing /auth`,
         },
         Date.now(),

@@ -1,19 +1,19 @@
-# Gemini CLI Extensions
+# CodeCraft CLI Extensions
 
-Gemini CLI supports extensions that can be used to configure and extend its functionality.
+CodeCraft CLI supports extensions that can be used to configure and extend its functionality.
 
 ## How it works
 
-On startup, Gemini CLI looks for extensions in two locations:
+On startup, CodeCraft CLI looks for extensions in two locations:
 
-1.  `<workspace>/.gemini/extensions`
-2.  `<home>/.gemini/extensions`
+1.  `<workspace>/.codecraft/extensions`
+2.  `<home>/.codecraft/extensions`
 
-Gemini CLI loads all extensions from both locations. If an extension with the same name exists in both locations, the extension in the workspace directory takes precedence.
+CodeCraft CLI loads all extensions from both locations. If an extension with the same name exists in both locations, the extension in the workspace directory takes precedence.
 
 Within each location, individual extensions exist as a directory that contains a `gemini-extension.json` file. For example:
 
-`<workspace>/.gemini/extensions/my-extension/gemini-extension.json`
+`<workspace>/.codecraft/extensions/my-extension/codecraft-extension.json`
 
 ### `gemini-extension.json`
 

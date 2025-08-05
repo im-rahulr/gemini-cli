@@ -225,7 +225,7 @@ export PATH="$(npm config get prefix)/bin:$PATH"
 **Issue: Authentication fails**
 ```bash
 # Solution: Clear authentication cache and retry
-rm -rf ~/.gemini/
+rm -rf ~/.codecraft/
 codecraft
 ```
 
