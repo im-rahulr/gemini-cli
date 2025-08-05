@@ -168,6 +168,39 @@ ANALYTICS_COLLECT_EMAIL=false
 
 For detailed information about data collection, privacy controls, and compliance, see [Analytics Documentation](docs/analytics.md).
 
+## 🔄 Updating CodeCraft CLI
+
+Keep your CLI up to date with the latest features and improvements:
+
+### Built-in Update Command
+```bash
+# From within the CLI
+/update
+```
+
+### Manual Update Methods
+
+**NPM Global Installation:**
+```bash
+# Check current version
+npm list -g @google/gemini-cli
+
+# Update to latest version
+npm update -g @google/gemini-cli
+```
+
+**Git Repository:**
+```bash
+# Navigate to CLI directory
+cd path/to/gemini-cli
+
+# Pull latest changes
+git pull origin main
+
+# Reinstall dependencies and rebuild
+npm install && npm run build
+```
+
 ## 🔧 Troubleshooting
 
 ### Common Installation Issues

@@ -68,6 +68,7 @@ export const useSlashCommandProcessor = (
   loadHistory: UseHistoryManagerReturn['loadHistory'],
   refreshStatic: () => void,
   setShowHelp: React.Dispatch<React.SetStateAction<boolean>>,
+  setShowUpdate: React.Dispatch<React.SetStateAction<boolean>>,
   onDebugMessage: (message: string) => void,
   openThemeDialog: () => void,
   openAuthDialog: () => void,
@@ -197,6 +198,14 @@ export const useSlashCommandProcessor = (
         action: (_mainCommand, _subCommand, _args) => {
           onDebugMessage('Opening help.');
           setShowHelp(true);
+        },
+      },
+      {
+        name: 'update',
+        description: 'update CodeCraft CLI to the latest version',
+        action: (_mainCommand, _subCommand, _args) => {
+          onDebugMessage('Checking for updates...');
+          setShowUpdate(true);
         },
       },
       {
@@ -979,6 +988,7 @@ export const useSlashCommandProcessor = (
   }, [
     onDebugMessage,
     setShowHelp,
+    setShowUpdate,
     refreshStatic,
     openThemeDialog,
     openAuthDialog,

@@ -38,6 +38,7 @@ import { AuthInProgress } from './components/AuthInProgress.js';
 import { EditorSettingsDialog } from './components/EditorSettingsDialog.js';
 import { Colors } from './colors.js';
 import { Help } from './components/Help.js';
+import { UpdateCommand } from '../commands/update.js';
 import { loadHierarchicalGeminiMemory } from '../config/config.js';
 import { LoadedSettings } from '../config/settings.js';
 import { Tips } from './components/Tips.js';
@@ -110,6 +111,7 @@ const App = ({ config, settings, startupWarnings = [] }: AppProps) => {
   const [geminiMdFileCount, setGeminiMdFileCount] = useState<number>(0);
   const [debugMessage, setDebugMessage] = useState<string>('');
   const [showHelp, setShowHelp] = useState<boolean>(false);
+  const [showUpdate, setShowUpdate] = useState<boolean>(false);
   const [themeError, setThemeError] = useState<string | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
   const [editorError, setEditorError] = useState<string | null>(null);
@@ -266,6 +268,7 @@ const App = ({ config, settings, startupWarnings = [] }: AppProps) => {
     loadHistory,
     refreshStatic,
     setShowHelp,
+    setShowUpdate,
     setDebugMessage,
     openThemeDialog,
     openAuthDialog,
@@ -642,6 +645,7 @@ const App = ({ config, settings, startupWarnings = [] }: AppProps) => {
         </OverflowProvider>
 
         {showHelp && <Help commands={slashCommands} />}
+        {showUpdate && <UpdateCommand onExit={() => setShowUpdate(false)} />}
 
         <Box flexDirection="column" ref={mainControlsRef}>
           {startupWarnings.length > 0 && (
